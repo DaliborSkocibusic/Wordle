@@ -18,47 +18,54 @@
 //    -   Hint: Use a free API (https://dictionaryapi.dev/)
 //-   Generate an output of the word/guesses and copy it to the user's clipboard so they can share it on socials
 //    -   Bonus: Use emojis
-//    
 
-
+import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import java.util.Scanner;
 
 public class CommanLineRunner {
 
 	public static void main(String[] args) throws Exception{
-		// TODO Auto-generated method stub
-		String path = "word-list.json";
-//
-//		Object obj = null;
-//		try {
-			Object obj = new JSONParser().parse(new FileReader(path));
-//		} catch (FileNotFoundException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		} catch (IOException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		} catch (ParseException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-		JSONObject jo = (JSONObject) obj;
-//		
-////		JSONTokener reader = Json.createReader(new FileReader(path));
-////		
-////		
-////		JSONPointer jsonPointer = new JSONPointer(path);
-////		JSONString jsonString = (JSONString) jsonPointer.getValue(jsonStructure);
-//		
-//		// TODO Auto-generated method stub
-
-		System.out.println("Game Running");
+		
+		String chosenWord = chooseWord();
+		char chosenChar = chooseChar(chosenWord);
+		System.out.println("Would you like to play Wordle? Y / N");
+		Scanner sc = new Scanner(System.in);	
+		
+		char gameQuit = sc.next().charAt(0);
+		
+		while (gameQuit == 'Y' || gameQuit == 'y') {
+			System.out.println("Game finished. Would you like to play Wordle? Y / N");
+			gameQuit = sc.next().charAt(0);
+		}
+		System.out.println("You choose " + gameQuit + " The game has finished.");
 	}
-
+	
+	public static String chooseWord() throws FileNotFoundException, IOException, ParseException {
+		String path = "word-list.json";
+		
+		Object obj = new JSONParser().parse(new FileReader(path));
+		Object var = obj.getClass();
+		int randChoice = (int) (Math.random() * 236);
+		//String chosenWord = obj.
+		JSONArray rec = (JSONArray) obj;
+		String retStr = (String) rec.get(randChoice);
+		return retStr;
+	}
+	
+	public static char chooseChar(String chosenString) {
+		
+		int randNo = (int) (Math.random() * 5);
+		char newChar = chosenString.charAt(randNo);
+		
+		return chosenString.charAt(randNo);
+	}
 }
