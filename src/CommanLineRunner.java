@@ -19,34 +19,40 @@
 //-   Generate an output of the word/guesses and copy it to the user's clipboard so they can share it on socials
 //    -   Bonus: Use emojis
 
-import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-
 import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import java.util.Scanner;
 
 public class CommanLineRunner {
 
+	Scanner sc = new Scanner(System.in);
+	char gameQuit = 'n'; //sc.next().charAt(0);
+	String chosenWord = "none";
+	char chosenChar = 'n';
+	
+
+	public CommanLineRunner() throws FileNotFoundException, IOException, ParseException {
+		this.chosenWord = chooseWord();
+		this.chosenChar = chooseChar(chosenWord);
+		
+	}
+	
 	public static void main(String[] args) throws Exception{
 		
-		String chosenWord = chooseWord();
-		char chosenChar = chooseChar(chosenWord);
-		System.out.println("Would you like to play Wordle? Y / N");
-		Scanner sc = new Scanner(System.in);	
+		CommanLineRunner runner = new CommanLineRunner();
+		runner.gameQuit = runner.getInitInput(runner.sc);
 		
-		char gameQuit = sc.next().charAt(0);
 		
-		while (gameQuit == 'Y' || gameQuit == 'y') {
-			System.out.println("Game finished. Would you like to play Wordle? Y / N");
-			gameQuit = sc.next().charAt(0);
+		while (runner.gameQuit == 'Y' || runner.gameQuit == 'y') {
+			runner.playOneGame();
+			runner.gameQuit = runner.playAnotherGame(runner);
+
 		}
-		System.out.println("You choose " + gameQuit + " The game has finished.");
+		System.out.println("You choose " + runner.gameQuit + " The game has finished.");
 	}
 	
 	public static String chooseWord() throws FileNotFoundException, IOException, ParseException {
@@ -67,5 +73,21 @@ public class CommanLineRunner {
 		char newChar = chosenString.charAt(randNo);
 		
 		return chosenString.charAt(randNo);
+	}
+	
+	public char getInitInput(Scanner sc) {
+		
+		System.out.println("Would you like to play Wordle? Y / N");
+		return sc.next().charAt(0);
+
+	}
+	
+	public void playOneGame() {
+		System.out.println("Playing one game");
+	}
+	
+	public char playAnotherGame(CommanLineRunner currentGame) {
+		System.out.println("Game finished. Would you like to play another game of Wordle? Y / N");
+		return currentGame.sc.next().charAt(0);
 	}
 }
