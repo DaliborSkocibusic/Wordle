@@ -121,7 +121,7 @@ public class CommanLineRunner {
 		return false;
 	}
 	
-	public void getFeedbackOnGuess() {
+	public char[] getFeedbackOnGuess() {
 		char[] correctGuesses = {' ',' ',' ',' ',' '};
 //		char searchInput0 = this.guessedWord.charAt(0);
 //		char searchInput1 = this.guessedWord.charAt(1);
@@ -130,6 +130,7 @@ public class CommanLineRunner {
 //		char searchInput4 = this.guessedWord.charAt(4);
 		// Cant do regex on a variable in Java. 
 		
+		// Correct gueses in correct position
 		System.out.println("Your guess was: " + this.guessedWord);
 		for (int i = 0; i < 5; i++) {
 			for (int j = 0; j < 5; j++) {
@@ -138,22 +139,29 @@ public class CommanLineRunner {
 				}
 			}	
 		}
-		System.out.println("Your feed back is: " + Arrays.toString(correctGuesses));
+		//System.out.println("Your feed back is: " + Arrays.toString(correctGuesses));
+		return correctGuesses;
 	}
 	
 	public boolean enterGuessingLoop() {
+		return doSingleGuess();
+	}
+	
+	public boolean doSingleGuess() {
 		boolean guessedResult = false;
-		for (int i = 0; i < 6; i++) {
-			guessedResult = compareGuessToStoredWord();
-			if (guessedResult) {
-				System.out.println("You guessed correctly");
-				return true;
-			}
-			else {
-				System.out.println("You guessed incorrectly. Below is the feedback");
-				getFeedbackOnGuess();
-			}
+		char[] guessedFeedback = {' ',' ',' ',' ',' '};
+		guessedResult = compareGuessToStoredWord();
+		if (guessedResult) {
+			System.out.println("You guessed correctly");
+			return true;
 		}
+		else {
+			System.out.println("You guessed incorrectly. Below is the feedback");
+			guessedFeedback = getFeedbackOnGuess();
+
+		}
+		System.out.println("Your feed back is: " + Arrays.toString(guessedFeedback));
+		
 		return false;
 	}
 }
