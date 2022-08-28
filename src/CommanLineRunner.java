@@ -25,6 +25,8 @@ import java.io.IOException;
 import org.json.simple.JSONArray;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class CommanLineRunner {
@@ -32,13 +34,13 @@ public class CommanLineRunner {
 	Scanner sc = new Scanner(System.in);
 	char gameQuit = 'n'; //sc.next().charAt(0);
 	String chosenWord = "none";
-	char chosenChar = 'n';
+	//char chosenChar = 'n';
+	String guessedWord = "";
 	
-
 	public CommanLineRunner() throws FileNotFoundException, IOException, ParseException {
 		this.chosenWord = chooseWord();
-		this.chosenChar = chooseChar(chosenWord);
-		
+		System.out.println("The chosen word is: " + chosenWord);
+		//this.chosenChar = chooseChar(chosenWord);
 	}
 	
 	public static void main(String[] args) throws Exception{
@@ -70,8 +72,7 @@ public class CommanLineRunner {
 	public static char chooseChar(String chosenString) {
 		
 		int randNo = (int) (Math.random() * 5);
-		char newChar = chosenString.charAt(randNo);
-		
+		//char newChar = chosenString.charAt(randNo);
 		return chosenString.charAt(randNo);
 	}
 	
@@ -79,15 +80,80 @@ public class CommanLineRunner {
 		
 		System.out.println("Would you like to play Wordle? Y / N");
 		return sc.next().charAt(0);
-
 	}
 	
 	public void playOneGame() {
+		boolean didYouWin = false;
 		System.out.println("Playing one game");
+		System.out.println("Please enter your guess word (5 Letters)");
+		this.guessedWord = this.sc.next();
+		while (!validateLegalGuess(guessedWord)) {
+			System.out.println("Please follow the input rules");
+			this.guessedWord = this.sc.next();
+		}
+		didYouWin = enterGuessingLoop();
+		if(didYouWin) { 
+			System.out.println("Congrats you won!");
+		}
+		else {
+			System.out.println("Sorry you lost. The word was: " + this.chosenWord);
+		}
+		
+		System.out.println("The word caugth was: " + this.guessedWord);
 	}
 	
 	public char playAnotherGame(CommanLineRunner currentGame) {
 		System.out.println("Game finished. Would you like to play another game of Wordle? Y / N");
 		return currentGame.sc.next().charAt(0);
+	}
+	
+	public boolean validateLegalGuess(String guess) {
+		if (guess.length() != 5) return false;
+		if (guess.matches("[^A-Za-z]")) return false;
+		
+		return true;
+	}
+	
+	public boolean compareGuessToStoredWord() {
+		if (this.chosenWord.equals(this.guessedWord)) {
+			return true;
+		}	
+		return false;
+	}
+	
+	public void getFeedbackOnGuess() {
+		char[] correctGuesses = {' ',' ',' ',' ',' '};
+//		char searchInput0 = this.guessedWord.charAt(0);
+//		char searchInput1 = this.guessedWord.charAt(1);
+//		char searchInput2 = this.guessedWord.charAt(2);
+//		char searchInput3 = this.guessedWord.charAt(3);
+//		char searchInput4 = this.guessedWord.charAt(4);
+		// Cant do regex on a variable in Java. 
+		
+		System.out.println("Your guess was: " + this.guessedWord);
+		for (int i = 0; i < 5; i++) {
+			for (int j = 0; j < 5; j++) {
+				if (this.chosenWord.charAt(i) == this.guessedWord.charAt(j)) {
+					correctGuesses[i] = this.chosenWord.charAt(i);
+				}
+			}	
+		}
+		System.out.println("Your feed back is: " + Arrays.toString(correctGuesses));
+	}
+	
+	public boolean enterGuessingLoop() {
+		boolean guessedResult = false;
+		for (int i = 0; i < 6; i++) {
+			guessedResult = compareGuessToStoredWord();
+			if (guessedResult) {
+				System.out.println("You guessed correctly");
+				return true;
+			}
+			else {
+				System.out.println("You guessed incorrectly. Below is the feedback");
+				getFeedbackOnGuess();
+			}
+		}
+		return false;
 	}
 }
