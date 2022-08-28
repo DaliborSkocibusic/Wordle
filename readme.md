@@ -41,6 +41,8 @@ This section should list any major frameworks/libraries used to bootstrap your p
 ## Roadmap
 
 -   [x] Initial Commit
+-   [x] UML<br>
+        <img width="600" align="center" src="Wordle%20UML.png">
 
 See the [open issues](https://github.com/DaliborSkocibusic/Wordle/issues) for a full list of proposed features (and known issues).
 
