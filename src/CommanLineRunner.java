@@ -148,14 +148,7 @@ public class CommanLineRunner {
 	public String getFeedbackOnGuess() {
 		char[] correctGuessesCorrectSpot = {' ',' ',' ',' ',' '};
 		char[] correctGuessIncorrectSpot = {' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '};
-		int correctGuessIncorrectSpotIndex = 0;
-//		char searchInput0 = this.guessedWord.charAt(0);
-//		char searchInput1 = this.guessedWord.charAt(1);
-//		char searchInput2 = this.guessedWord.charAt(2);
-//		char searchInput3 = this.guessedWord.charAt(3);
-//		char searchInput4 = this.guessedWord.charAt(4);
-		// Cant do regex on a variable in Java. 
-		
+		int correctGuessIncorrectSpotIndex = 0;		
 		// Correct gueses in correct position
 		System.out.println("Your guess was: " + this.guessedWord);
 		for (int i = 0; i < 5; i++) {
